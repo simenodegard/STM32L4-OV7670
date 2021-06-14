@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <stdbool.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -74,8 +75,9 @@ uint8_t buffer2[4] = {0};
 uint8_t *pointer_8bit = (uint8_t *)&frame_buffer;
 uint8_t myTxData[1] = {0x55};
 uint8_t reg_val = 0x00;
+uint8_t camera_config_OK = 0;
 /* USER CODE END 0 */
-
+bool snap_received = false;
 /**
   * @brief  The application entry point.
   * @retval int
@@ -109,8 +111,13 @@ int main(void)
   MX_I2C2_Init();
   MX_LPUART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  //i2c_check(); //Implement as part of ov7670 init function?
+ // i2c_check(); //Implement as part of ov7670 init function?
   ov7670_init();
+//camera_config_OK = ov7670_init_MIT(76800);
+//  if (camera_config_OK)
+//  {
+//	  HAL_GPIO_WritePin(GPIOC, LED1_Pin, GPIO_PIN_SET);
+//  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -119,29 +126,44 @@ int main(void)
 
 
   ov7670_read(0x0b); // read only register - version number
-  ov7670_reg_check(); // Prints 0xAA and lights Green LED if all registers are sucessfully written
+  ov7670_reg_check(); // Prints 0xAA and lights Green LED if all registers are successfully written
   //ov7670_read_all_reg();
-
+uint8_t test;
+//HAL_Delay(5000);
   while (1)
   {
+//	  while (!LL_LPUART_IsActiveFlag_RXNE_RXFNE(LPUART1))
+//	  		{
+//
+//	  		}; // Wait for Empty
+//	  if(LL_LPUART_IsActiveFlag_RXNE(LPUART1))
+//	  {
+//		  	  if (Serial_Receive() == 's')
+////	  {{
+//		  LL_LPUART_RequestRxDataFlush(LPUART1);
+//	  HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_SNAPSHOT, (uint32_t) frame_buffer, RGB565_QVGA_SIZE);
+////	  }
+//	  }
+//	HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+	  if(snap_received)
+	  {
+		  HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_SNAPSHOT, (uint32_t) frame_buffer, RGB565_QVGA_SIZE);
+		  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+		  snap_received = false;
+	  }
+	//HAL_Delay(3000);
 
-	HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
-
-	HAL_Delay(3000);
-
-	HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_SNAPSHOT, (uint32_t) frame_buffer, RGB565_QVGA_SIZE);
-
-
+//	HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_SNAPSHOT, (uint32_t) frame_buffer, RGB565_QVGA_SIZE);
 	/*Button pressed*/ //NOT IN USE ANYMORE
-//	if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13))
-//	{
-//		HAL_DCMI_Stop(&hdcmi);
-//		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
-//		HAL_Delay(500);
-//		HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_SNAPSHOT, (uint32_t) frame_buffer, RGB565_QVGA_SIZE);
-//		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
-//		HAL_Delay(500);
-//	}
+	if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13))
+	{
+	//	HAL_DCMI_Stop(&hdcmi);
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+		HAL_Delay(500);
+		HAL_DCMI_Start_DMA(&hdcmi, DCMI_MODE_SNAPSHOT, (uint32_t) frame_buffer, RGB565_QVGA_SIZE);
+		//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+		//HAL_Delay(500);
+	}
 
     /* USER CODE END WHILE */
 
@@ -350,7 +372,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   LPUART_InitStruct.PrescalerValue = LL_LPUART_PRESCALER_DIV1;
-  LPUART_InitStruct.BaudRate = 115200;
+  LPUART_InitStruct.BaudRate = 921600;
   LPUART_InitStruct.DataWidth = LL_LPUART_DATAWIDTH_8B;
   LPUART_InitStruct.StopBits = LL_LPUART_STOPBITS_1;
   LPUART_InitStruct.Parity = LL_LPUART_PARITY_NONE;
@@ -360,6 +382,7 @@ static void MX_LPUART1_UART_Init(void)
   LL_LPUART_SetTXFIFOThreshold(LPUART1, LL_LPUART_FIFOTHRESHOLD_1_8);
   LL_LPUART_SetRXFIFOThreshold(LPUART1, LL_LPUART_FIFOTHRESHOLD_1_8);
   LL_LPUART_DisableFIFO(LPUART1);
+    LL_LPUART_EnableIT_RXNE(LPUART1);
   LL_LPUART_Enable(LPUART1);
   /* USER CODE BEGIN LPUART1_Init 2 */
 
@@ -457,13 +480,12 @@ static void MX_GPIO_Init(void)
 
 void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
 {
-  /* Prevent unused argument(s) compilation warning */
-  UNUSED(hdcmi);
 
   /* NOTE : This function should not be modified; when the callback is needed,
             the HAL_DCMI_FrameEventCallback() callback can be implemented in the user file.
    */
   Serial_com(&frame_buffer[0], RGB565_QVGA_SIZE_8BIT); //Send the Frame buffer to PC
+
 
 }
 

@@ -28,34 +28,34 @@ endif
 
 -include ../makefile.defs
 
-BUILD_ARTIFACT_NAME := STM32L4R5ZI-OV7670
+BUILD_ARTIFACT_NAME := STM32L4R5ZI-OV7670_QQVGA
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX := 
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME).$(BUILD_ARTIFACT_EXTENSION)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-STM32L4R5ZI-OV7670.elf \
+STM32L4R5ZI-OV7670_QQVGA.elf \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-STM32L4R5ZI-OV7670.list \
+STM32L4R5ZI-OV7670_QQVGA.list \
 
 OBJCOPY_BIN += \
-STM32L4R5ZI-OV7670.bin \
+STM32L4R5ZI-OV7670_QQVGA.bin \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: STM32L4R5ZI-OV7670.elf secondary-outputs
+main-build: STM32L4R5ZI-OV7670_QQVGA.elf secondary-outputs
 
 # Tool invocations
-STM32L4R5ZI-OV7670.elf: $(OBJS) $(USER_OBJS) C:\Users\Simen\STM32CubeIDE\workspace_1.5.1\STM32L4R5ZI-OV7670\STM32L4R5ZITX_FLASH.ld
-	arm-none-eabi-gcc -o "STM32L4R5ZI-OV7670.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Simen\STM32CubeIDE\workspace_1.5.1\STM32L4R5ZI-OV7670\STM32L4R5ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32L4R5ZI-OV7670.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32L4R5ZI-OV7670_QQVGA.elf: $(OBJS) $(USER_OBJS) C:\Users\Simen\STM32CubeIDE\workspace_1.5.1\STM32L4R5ZI-OV7670_QQVGA\STM32L4R5ZITX_FLASH.ld
+	arm-none-eabi-gcc -o "STM32L4R5ZI-OV7670_QQVGA.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Simen\STM32CubeIDE\workspace_1.5.1\STM32L4R5ZI-OV7670_QQVGA\STM32L4R5ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32L4R5ZI-OV7670_QQVGA.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -64,13 +64,13 @@ default.size.stdout: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-STM32L4R5ZI-OV7670.list: $(EXECUTABLES)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "STM32L4R5ZI-OV7670.list"
+STM32L4R5ZI-OV7670_QQVGA.list: $(EXECUTABLES)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "STM32L4R5ZI-OV7670_QQVGA.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-STM32L4R5ZI-OV7670.bin: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "STM32L4R5ZI-OV7670.bin"
+STM32L4R5ZI-OV7670_QQVGA.bin: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "STM32L4R5ZI-OV7670_QQVGA.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 

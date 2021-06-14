@@ -285,11 +285,11 @@ static const uint8_t OV7670_reg[][2] = {
 //	  //{0x12, 4},   // qvga
 //		{0x15, 0x20}, //PCLK does not toggle on HBLANK.{0x15 32]
 //		{REG_COM3,4},
-
-
-
-
-
+//
+//
+//
+//
+//
 //		/*rgb565_ov7670*/
 //		{REG_COM7, COM7_RGB}, //{0x12, 0x04}/* Selects RGB mode */
 //	  //{REG_COM7, 0x16},
@@ -306,10 +306,10 @@ static const uint8_t OV7670_reg[][2] = {
 //		{0x53, 0xa7},		 /* "matrix coefficient 5" */
 //		{0x54, 0xe4},		 /* "matrix coefficient 6" */
 //		{REG_COM13, /*COM13_GAMMA|*/COM13_UVSAT}, //{0x3D,0x40}
+//
+//
+//
 
-//
-//
-//
 		/*ov7670_default_regs*/
 		//{ REG_COM7, COM7_RESET }, //{0x12, 0x80} WHY reset here??
 		{ REG_TSLB, 0x04 },	/* OV */

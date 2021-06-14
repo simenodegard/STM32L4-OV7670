@@ -21,6 +21,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32l4xx_it.h"
+#include <stdbool.h>
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -60,7 +62,7 @@ extern DMA_HandleTypeDef hdma_dcmi;
 extern DCMI_HandleTypeDef hdcmi;
 extern I2C_HandleTypeDef hi2c2;
 /* USER CODE BEGIN EV */
-
+extern bool snap_received;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -207,11 +209,11 @@ void SysTick_Handler(void)
 void DMA1_Channel1_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
-
+////
   /* USER CODE END DMA1_Channel1_IRQn 0 */
 
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
-
+////
   /* USER CODE END DMA1_Channel1_IRQn 1 */
 }
 
@@ -260,10 +262,29 @@ void I2C2_ER_IRQHandler(void)
 /**
   * @brief This function handles LPUART1 global interrupt.
   */
+uint8_t test2;
 void LPUART1_IRQHandler(void)
 {
+
+
   /* USER CODE BEGIN LPUART1_IRQn 0 */
 
+	    // receive
+	    if (LL_LPUART_IsActiveFlag_RXNE(LPUART1) && LL_LPUART_IsEnabledIT_RXNE(LPUART1))
+	    {
+	    	test2 = LL_LPUART_ReceiveData8(LPUART1);
+	        if (test2 == 's')
+	        {
+	        	snap_received = true;
+	        }
+
+	    }
+	    // overrun error
+	        if (LL_LPUART_IsActiveFlag_ORE(LPUART1))
+	        {
+	            LL_LPUART_ReceiveData8(LPUART1);
+	            LL_LPUART_ClearFlag_ORE(LPUART1);
+	        }
   /* USER CODE END LPUART1_IRQn 0 */
   /* USER CODE BEGIN LPUART1_IRQn 1 */
 

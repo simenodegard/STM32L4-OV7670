@@ -39,7 +39,8 @@ Core/Src/stm32l4xx_it.o: ../Core/Src/stm32l4xx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dmamux.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_exti.h \
  ../Core/Inc/ov7670.h ../Core/Inc/main.h ../Core/Inc/ov7670_registers.h \
- ../Core/Inc/uart.h ../Core/Inc/stm32l4xx_it.h
+ ../Core/Inc/ov7670_registers_MIT.h ../Core/Inc/uart.h \
+ ../Core/Inc/stm32l4xx_it.h
 
 ../Core/Inc/main.h:
 
@@ -126,6 +127,8 @@ Core/Src/stm32l4xx_it.o: ../Core/Src/stm32l4xx_it.c ../Core/Inc/main.h \
 ../Core/Inc/main.h:
 
 ../Core/Inc/ov7670_registers.h:
+
+../Core/Inc/ov7670_registers_MIT.h:
 
 ../Core/Inc/uart.h:
 
