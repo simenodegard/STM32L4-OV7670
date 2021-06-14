@@ -97,11 +97,21 @@ static const uint8_t OV7670_reg[][2] = {
   {0x41, 0x38},   // edge enhancement, de-noise, AWG gain enabled - REMOVING THIS - NO MORE INVERTED COLOR - MUCH MORE STABLE
 
   //FROM MIT
-
+//{0x6c, 0x0a}, //AWB control
+//{0x6d, 0x55}, //AWB control
+//{0x6e, 0x11}, //AWB control
+//{0x6f, 0x9f}, //AWB control
+//{0x6a, 0x40}, //GGAIN
+//{0x01, 0x40}, // BLUE GAIN (AGC) - default 0x80 - max FF
+//{0x02, 0x40}, // RED GAIN (AGC) - default 0x80 - max FF
+////0x13 is important - [2] on/off AGC automatic gain - [1] on/off AWB automatic white balance
+//{0x13, 0xe7}, //Banding filter - depends on exposure time - se 3.3. automatic exposure time (AEC)
+// //0xef value - all is enabled except banding
+////ov7670_write_Delay(0x15, 0x02); // VSYNC negative
 
 
   /* gamma curve */
-//#if 1
+//#if 1 - works good with adjusting gain on reg 0x69
   {0x7b, 16},
   {0x7c, 30},
   {0x7d, 53},
@@ -177,7 +187,7 @@ static const uint8_t OV7670_reg[][2] = {
   //FIX GAIN
   //{0x69,0x06}, //Bx1.5, Rx1.25, Gx1
   //{0x69,0x07},	 //Bx1.75, Rx1.25, Gx1
-  {0x69,0x0B},	 //Bx1.75, Rx1.5, Gx1
+  //{0x69,0x0B},	 //Bx1.75, Rx1.5, Gx1
 
 
   /* fps */

@@ -6,12 +6,14 @@
  */
 
 #include "main.h"
-#include "ov7670_registers.h"
+//#include "ov7670_registers.h"
 //#include "ov7670_registers_v2.h"
 //#include "ov7670_registers_Amin.h"
 //#include "ov7670_registers_Amin_V2.h"
 //#include "ov7670_registers_Microsoft.h"
 #include "ov7670_registers_MIT.h"
+//#include "ov7670_registers_Simen.h"
+#include "ov7670_registers_SIMEN_V2.h"
 
 #ifndef INC_OV7670_H_
 #define INC_OV7670_H_
